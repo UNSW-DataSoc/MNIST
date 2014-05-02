@@ -14,4 +14,10 @@ knn.pred = knn (trainData[,-1], testData[,-1], trainData[,1], 10)
 mean(knn.pred==testData[,1]) # 0.9594776
 
 knn.pred = knn (rawTrainingData[,-1], rawTestData, rawTrainingData[,1], 10)
-mean(knn.pred==testData[,1]) # 0.9594776
+
+Label=knn.pred
+ImageId=1:28000
+submission = as.data.frame(ImageId)
+submission$Label=as.numeric(knn.pred)-1
+
+write.csv(submission, file="10nn.csv", row.names=F)
