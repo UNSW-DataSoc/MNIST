@@ -1,0 +1,16 @@
+#KaggleData
+train <- read.csv("~/Documents/Kaggle/train.csv")
+#Use L1 regularization to pull out most important factors.
+require(glmnet)
+lassofit <- glmnet(as.matrix(train[,-1]),train[,1])
+plot(lassofit, xvar = "lambda", label = TRUE)
+cvlasso <- cv.glmnet(as.matrix(train[,-1]),train[,1])
+plot(cvlasso)
+used <- as.numeric((coef(lassofit,s=cvlasso$lambda.1se)>0))
+test <- read.csv("~/Documents/Kaggle/test.csv")
+
+
+train[1:10,-1][,used==1]
+#SVM
+require(e1071)
+svmfit <- svm(train[,-1][used==1],train[,1],gamma=0.1,cost=100,kernel="radial") 
