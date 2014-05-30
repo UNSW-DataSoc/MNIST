@@ -9,8 +9,9 @@ plot(cvlasso)
 used <- as.numeric((coef(lassofit,s=cvlasso$lambda.1se)>0))
 test <- read.csv("~/Documents/Kaggle/test.csv")
 
+#To pull the training dataset with reduced number of features
+train[,-1][,used==1]
 
-train[1:10,-1][,used==1]
 #SVM
 require(e1071)
-svmfit <- svm(train[,-1][used==1],train[,1],gamma=0.1,cost=100,kernel="radial") 
+
